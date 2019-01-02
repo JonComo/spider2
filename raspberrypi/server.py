@@ -9,7 +9,7 @@ from time import sleep
 
 servo = maestro.Controller()
 for i in range(8):
-    servo.setAccel(i, 15)
+    servo.setAccel(i, 30)
     servo.setTarget(i, 6000)
 
 TCP_IP = ''
