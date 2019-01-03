@@ -1,6 +1,7 @@
 from mpu6050 import mpu6050
 import maestro
 from time import sleep
+import numpy as np
 
 sensor = mpu6050(0x68)
 servo = maestro.Controller()
