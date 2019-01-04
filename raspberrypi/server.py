@@ -42,6 +42,10 @@ while True:
                     d = data.split(",")
                     for i in range(8):
                         angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
+                        if angle > 8000:
+                            angle = 8000
+                        if angle < 2000:
+                            angle = 2000
                         servo.setTarget(i, int(angle))
                 except:
                     print("error: unknown message")
