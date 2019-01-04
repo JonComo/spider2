@@ -7,11 +7,6 @@ from time import sleep
 # servo
 # min 4000, mid 6000, max 8000
 import maestro
-
-# sensor
-from mpu6050 import mpu6050
-
-sensor = mpu6050(0x68)
 servo = maestro.Controller()
 
 for i in range(8):
@@ -45,30 +40,9 @@ while True:
                     print ("Data: %s" % data)
                     data = data.decode("utf-8")
                     d = data.split(",")
-                    if len(d) == 8:
-                        for i in range(8):
-                            angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
-                            servo.setTarget(i, int(angle))
-                    elif len(d) == 9:
-                        for i in range(8):
-                            angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
-                            servo.setTarget(i, int(angle))
-                        sensor_iters = int(d[8])
-                        accel = np.zeros(3)
-                        for j in range(sensor_iters):
-                            # collect sensor data
-                            data = sensor.get_accel_data()
-                            accel[0] += data['x']
-                            accel[1] += data['y']
-                            accel[2] += data['z']
-                            sleep(.05)
-                        by = ",".join([str(x) for x in accel])
-                        by = by.encode()
-                        print(by)
-                        s.sendall(by)
-
-
-
+                    for i in range(8):
+                        angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
+                        servo.setTarget(i, int(angle))
                 except:
                     print("error: unknown message")
                     connection.send("error")
