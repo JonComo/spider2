@@ -12,8 +12,13 @@ for i in range(8):
 
 def move_to(state):
     for i in range(8):
-        servo.setTarget(i, int(state[i]*2000.0) + 6000)
-    avg_iters = 15
+        s = state[i]
+        if s > 1:
+            s = 1
+        elif s < -1:
+            s = -1
+        servo.setTarget(i, int(s*2000.0) + 6000)
+    avg_iters = 10
     accel = np.zeros(3)
     for i in range(avg_iters):
         data = sensor.get_accel_data()
@@ -23,29 +28,26 @@ def move_to(state):
         sleep(.05)
     return accel / float(avg_iters)
 
-sars = []
-
 # start in default
 state = np.zeros(8)
 move_to(state)
 
 best_y = 0
-best_move = np.zeros(8)
+best_move = np.random.random(8) * 2 - 1
 
 i = 0
 while True:
     i += 1
-    if i % 5 == 0:
+    if False:
         print("doing best move 4x")
         for j in range(4):
             move_to(state)
             move_to(best_move)
 
-    move_to(state)
-    state2 = np.random.random(8) * 2 - 1 # state between -1 and 1
-    accel = move_to(state2)
-    print(accel)
-    if accel[1] > best_y:
+    accel = move_to(state)
+    diff = best_move + np.random.random(8) * .5 - .25
+    accel += move_to(diff)
+    if accel[1] < best_y:
         print("new best ", accel[1])
         best_y = accel[1]
-        best_move = state2.copy()
+        best_move = diff.copy()

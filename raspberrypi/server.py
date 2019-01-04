@@ -43,6 +43,7 @@ while True:
                 try:
                     # output received data
                     print ("Data: %s" % data)
+                    data = data.decode("utf-8")
                     d = data.split(",")
                     if len(d) == 8:
                         for i in range(8):
@@ -61,7 +62,10 @@ while True:
                             accel[1] += data['y']
                             accel[2] += data['z']
                             sleep(.05)
-                        s.send(accel.encode())
+                        by = ",".join([str(x) for x in accel])
+                        by = by.encode()
+                        print(by)
+                        s.sendall(by)
 
 
 
