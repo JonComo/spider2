@@ -53,7 +53,6 @@ while True:
             else:
                 # no more data -- quit the loop
                 print ("no more data.")
-                break
     finally:
         # Clean up the connection
         connection.close()
