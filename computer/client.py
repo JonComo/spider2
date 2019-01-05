@@ -12,10 +12,10 @@ class Socket(object):
         self.connect()
 
     def send(self, msg):
-        self.s.sendto(msg.encode(), (TCP_IP, TCP_PORT))
+        self.s.sendall(msg.encode())
 
     def send_recv(self, msg):
-        self.s.sendto(msg.encode(), (TCP_IP, TCP_PORT))
+        self.s.sendall(msg.encode())
         data = self.s.recv(BUFFER_SIZE)
         return data
 
