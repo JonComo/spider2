@@ -49,10 +49,10 @@ while True:
                         servo.setTarget(i, int(angle))
                 except:
                     print("error: unknown message")
-                    connection.send("error")
             else:
                 # no more data -- quit the loop
                 print ("no more data.")
+                break
     finally:
         # Clean up the connection
         connection.close()
