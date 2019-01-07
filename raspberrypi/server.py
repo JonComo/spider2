@@ -73,9 +73,10 @@ while True:
                     elif msg == 1:
                         set_angles(d)
                         data = collect_data()
+                        print("collected: ", data)
                         s.sendall(data.encode())
-                except:
-                    print("error: unknown message")
+                except Exception as e:
+                    print("error: ", e)
             else:
                 # no more data -- quit the loop
                 print ("no more data.")
