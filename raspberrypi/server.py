@@ -26,42 +26,6 @@ s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 s.bind((TCP_IP, TCP_PORT))
 s.listen(1)
 
-while True:
-    # wait for a connection
-    print ('waiting for a connection')
-    connection, client_address = s.accept()
-
-    try:
-        # show who connected to us
-        print ('connection from', client_address)
-
-        # receive the data in small chunks and print it
-        while True:
-            data = connection.recv(BUFFER_SIZE)
-            if data:
-                try:
-                    # output received data
-                    print ("Data: %s" % data)
-                    data = data.decode("utf-8")
-                    d = data.split(",")
-                    msg = int(d[0])
-                    
-                    if msg == 0:
-                        set_angles(d) # just set
-                    elif msg == 1:
-                        set_angles(d)
-                        data = collect_data()
-                        s.sendall(data.encode())
-                except:
-                    print("error: unknown message")
-            else:
-                # no more data -- quit the loop
-                print ("no more data.")
-                break
-    finally:
-        # Clean up the connection
-        connection.close()
-
 def set_angles(d):
     for i in range(8):
         angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
@@ -83,3 +47,39 @@ def collect_data():
         sleep(.1)
 
     return "{},{},{}".format(x, y, z)
+
+while True:
+    # wait for a connection
+    print ('waiting for a connection')
+    connection, client_address = s.accept()
+
+    try:
+        # show who connected to us
+        print ('connection from', client_address)
+
+        # receive the data in small chunks and print it
+        while True:
+            data = connection.recv(BUFFER_SIZE)
+            if data:
+                try:
+                    # output received data
+                    print ("Data: %s" % data)
+                    data = data.decode("utf-8")
+                    d = data.split(",")
+                    msg = float(d[0])
+                    
+                    if msg == 0:
+                        set_angles(d) # just set
+                    elif msg == 1:
+                        set_angles(d)
+                        data = collect_data()
+                        s.sendall(data.encode())
+                except:
+                    print("error: unknown message")
+            else:
+                # no more data -- quit the loop
+                print ("no more data.")
+                break
+    finally:
+        # Clean up the connection
+        connection.close()
