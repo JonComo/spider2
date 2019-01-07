@@ -4,6 +4,10 @@ import socket
 from socket import SOL_SOCKET, SO_REUSEADDR
 from time import sleep
 
+# sensor
+from mpu6050 import mpu6050
+sensor = mpu6050(0x68)
+
 # servo
 # min 4000, mid 6000, max 8000
 import maestro
@@ -40,13 +44,14 @@ while True:
                     print ("Data: %s" % data)
                     data = data.decode("utf-8")
                     d = data.split(",")
-                    for i in range(8):
-                        angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
-                        if angle > 8000:
-                            angle = 8000
-                        if angle < 2000:
-                            angle = 2000
-                        servo.setTarget(i, int(angle))
+                    msg = int(d[0])
+                    
+                    if msg == 0:
+                        set_angles(d) # just set
+                    elif msg == 1:
+                        set_angles(d)
+                        data = collect_data()
+                        s.sendall(data.encode())
                 except:
                     print("error: unknown message")
             else:
@@ -56,3 +61,25 @@ while True:
     finally:
         # Clean up the connection
         connection.close()
+
+def set_angles(d):
+    for i in range(8):
+        angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
+        if angle > 8000:
+            angle = 8000
+        if angle < 2000:
+            angle = 2000
+        servo.setTarget(i, int(angle))
+
+def collect_data():
+    x = 0
+    y = 0
+    z = 0
+    for i in range(10):
+        data = sensor.get_accel_data()
+        x += data['x']
+        y += data['y']
+        z += data['z']
+        sleep(.1)
+
+    return "{},{},{}".format(x, y, z)
