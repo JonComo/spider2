@@ -67,7 +67,7 @@ while True:
                     data = data.decode("utf-8")
                     d = data.split(",")
                     msg = float(d[0])
-                    
+                    d = d[1:]
                     if msg == 0:
                         set_angles(d) # just set
                     elif msg == 1:
