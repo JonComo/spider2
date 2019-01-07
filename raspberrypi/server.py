@@ -74,7 +74,7 @@ while True:
                         set_angles(d)
                         data = collect_data()
                         print("collected: ", data)
-                        s.sendall(data.encode())
+                        connection.send(data.encode())
                 except Exception as e:
                     print("error: ", e)
             else:
