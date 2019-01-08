@@ -14,14 +14,17 @@ body.default_accel()
 body.set_angles(np.zeros(8))
 sleep(1)
 
+t = 0
+
 def transform(state, W):
-    state = np.hstack([np.ones(1), state])
-    z = W.dot(state)
+    global t
+    #state = np.hstack([np.ones(1), state])
+    z = W.dot(np.array([1, np.sin(t), np.cos(t)]))
     h = np.tanh(z)
     return h
 
 if __name__ == "__main__":
-    W = np.random.randn(8, 9)
+    W = np.random.randn(8, 3)
     state = np.zeros(8)
 
     rewards = []
@@ -31,6 +34,7 @@ if __name__ == "__main__":
 
     while True:
         i += 1
+        t += 0.1
 
         diff = np.random.randn(W.shape[0], W.shape[1])
         trialW = W + diff
