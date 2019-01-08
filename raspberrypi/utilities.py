@@ -7,7 +7,8 @@ sensor = mpu6050(0x68)
 import maestro
 servo = maestro.Controller()
 
-def set_angles(d, servo):
+def set_angles(d):
+    global servo
     for i in range(8):
         angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
         if angle > 8000:
@@ -22,6 +23,8 @@ def default_accel():
         servo.setTarget(i, 6000)
 
 def collect_data(steps=10, sleep_time=.1):
+    global sensor
+    
     x = 0
     y = 0
     z = 0
