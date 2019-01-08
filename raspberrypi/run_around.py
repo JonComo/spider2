@@ -57,7 +57,7 @@ if __name__ == "__main__":
         rewards.append(reward)
         diffs.append(diff)
 
-        if i % 10 == 0:
+        if i % 5 == 0:
             # train
             state = np.zeros(8)
             body.set_angles(state)
@@ -65,6 +65,8 @@ if __name__ == "__main__":
             r_norm = np.array(rewards)
             r_norm -= np.mean(r_norm)
             r_norm /= np.std(r_norm)
+
+            update = np.zeros_like(W)
             for j in range(len(diffs)):
                 update += diffs[j] * r_norm[j]
             W += update * learning_rate
