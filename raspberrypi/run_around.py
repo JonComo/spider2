@@ -43,7 +43,7 @@ if __name__ == "__main__":
         for k in range(move_steps):
             state = transform(state, trialW)
             body.set_angles(state)
-            data += np.array(body.collect_data(steps=5, sleep_time=.05))
+            data += np.array(body.collect_data(steps=5, sleep_time=.01))
 
         if data[2] < 0:
             # robot is flipped, reset!
