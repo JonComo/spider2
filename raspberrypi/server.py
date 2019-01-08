@@ -3,19 +3,9 @@ import numpy as np
 import socket
 from socket import SOL_SOCKET, SO_REUSEADDR
 from time import sleep
+import utilities
 
-# sensor
-from mpu6050 import mpu6050
-sensor = mpu6050(0x68)
-
-# servo
-# min 4000, mid 6000, max 8000
-import maestro
-servo = maestro.Controller()
-
-for i in range(8):
-    servo.setAccel(i, 30)
-    servo.setTarget(i, 6000)
+utilities.default_accel()
 
 TCP_IP = ''
 TCP_PORT = 5005
@@ -25,28 +15,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 s.bind((TCP_IP, TCP_PORT))
 s.listen(1)
-
-def set_angles(d):
-    for i in range(8):
-        angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
-        if angle > 8000:
-            angle = 8000
-        if angle < 2000:
-            angle = 2000
-        servo.setTarget(i, int(angle))
-
-def collect_data():
-    x = 0
-    y = 0
-    z = 0
-    for i in range(10):
-        data = sensor.get_accel_data()
-        x += data['x']
-        y += data['y']
-        z += data['z']
-        sleep(.1)
-
-    return "{},{},{}".format(x, y, z)
 
 while True:
     # wait for a connection
@@ -69,10 +37,11 @@ while True:
                     msg = float(d[0])
                     d = d[1:]
                     if msg == 0:
-                        set_angles(d) # just set
+                        utilities.set_angles(d) # just set
                     elif msg == 1:
-                        set_angles(d)
-                        data = collect_data()
+                        utilities.set_angles(d)
+                        data = utilities.collect_data()
+                        data = "{},{},{}".format(data[0], data[1], data[2])
                         print("collected: ", data)
                         connection.send(data.encode())
                 except Exception as e:
