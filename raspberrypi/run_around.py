@@ -47,6 +47,7 @@ if __name__ == "__main__":
 
         if data[2] < 0:
             # robot is flipped, reset!
+            print("resetting")
             i = 0
             rewards = []
             diffs = []
@@ -57,12 +58,14 @@ if __name__ == "__main__":
             continue
         
         reward = data[1] # y acceleration, maybe want to filter out tilting in y direction?
+        print("reward: ", reward)
         
         rewards.append(reward)
         diffs.append(diff)
 
         if i % 5 == 0:
             # train
+            print("training")
             state = np.zeros(8)
             body.set_angles(state)
 
@@ -77,4 +80,3 @@ if __name__ == "__main__":
             
             rewards = []
             diffs = []
-            sleep(1)
