@@ -7,7 +7,7 @@ import numpy as np
 from time import sleep
 
 learning_rate = .2
-move_steps = 4 # moves to make with trial Ws
+move_steps = 10 # moves to make with trial Ws
 
 body = Body()
 body.default_accel()
@@ -77,3 +77,4 @@ if __name__ == "__main__":
             
             rewards = []
             diffs = []
+            sleep(1)
