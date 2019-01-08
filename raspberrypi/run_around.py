@@ -1,6 +1,7 @@
 # Runs around and tries to learn to walk forwards
 # Flip robot upsidedown to scramble its brain connections if suck in local optima
 # Uses motion sensor to generate rewards for forward motion
+# Try using user input
 
 from spider import Body
 import numpy as np
@@ -58,6 +59,12 @@ if __name__ == "__main__":
             continue
         
         reward = data[1] # y acceleration, maybe want to filter out tilting in y direction?
+        user = input()
+        if user == 'g':
+            reward = 1
+        else:
+            reward = -1
+            
         print("reward: ", reward)
 
         rewards.append(reward)
