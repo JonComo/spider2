@@ -3,7 +3,7 @@ import numpy as np
 import socket
 from socket import SOL_SOCKET, SO_REUSEADDR
 from time import sleep
-from utilities import Body
+from spider import Body
 
 body = Body()
 body.default_accel()

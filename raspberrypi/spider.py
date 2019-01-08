@@ -12,6 +12,32 @@ class Body(object):
         self.servo = maestro.Controller()
         self.sensor = mpu6050(0x68)
 
+        self.x_fast = 0
+        self.y_fast = 0
+        self.z_fast = 0
+
+        self.x_slow = 0
+        self.y_slow = 0
+        self.z_slow = 0
+
+    def update(self):
+        data = self.sensor.get_accel_data()
+        
+        self.x_fast += (data['x'] - self.x_avg) * .2
+        self.y_fast += (data['y'] - self.y_avg) * .2
+        self.z_fast += (data['z'] - self.z_avg) * .2
+
+        self.x_slow += (data['x'] - self.x_avg) * .2
+        self.y_slow += (data['y'] - self.y_avg) * .2
+        self.z_slow += (data['z'] - self.z_avg) * .2
+
+    def fast_accel(self):
+        x_diff = self.x_fast - self.x_slow
+        y_diff = self.y_fast - self.y_slow
+        z_diff = self.z_fast - self.z_slow
+        
+        return [x_diff, y_diff, z_diff]
+
     def set_angles(self, d):
         for i in range(8):
             angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1

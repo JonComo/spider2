@@ -2,7 +2,7 @@
 # Flip robot upsidedown to scramble its brain connections if suck in local optima
 # Uses motion sensor to generate rewards for forward motion
 
-from utilities import Body
+from spider import Body
 import numpy as np
 from time import sleep
 
