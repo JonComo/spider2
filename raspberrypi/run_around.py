@@ -48,6 +48,7 @@ if __name__ == "__main__":
             W = np.random.randn(8, 9)
             state = np.zeros(8)
             utilities.set_angles(state)
+            sleep(5)
             continue
         
         reward = data[1] # y acceleration, maybe want to filter out tilting in y direction?
