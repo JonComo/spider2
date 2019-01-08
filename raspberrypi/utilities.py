@@ -5,6 +5,8 @@ from mpu6050 import mpu6050
 # min 4000, mid 6000, max 8000
 import maestro
 
+from time import sleep
+
 class Body(object):
     def __init__(self):
         self.servo = maestro.Controller()
