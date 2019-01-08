@@ -43,7 +43,7 @@ if __name__ == "__main__":
         for k in range(move_steps):
             state = transform(state, trialW)
             body.set_angles(state)
-            data += np.array(body.collect_data(steps=5, sleep_time=.1))
+            data += np.array(body.collect_data(steps=5, sleep_time=.05))
 
         if data[2] < 0:
             # robot is flipped, reset!
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         
         reward = data[1] # y acceleration, maybe want to filter out tilting in y direction?
         print("reward: ", reward)
-        
+
         rewards.append(reward)
         diffs.append(diff)
 
