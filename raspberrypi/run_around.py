@@ -41,7 +41,7 @@ if __name__ == "__main__":
             body.set_angles(state)
             data += np.array(body.collect_data(steps=5, sleep_time=.1))
 
-        if data[1] < 0:
+        if data[2] < 0:
             # robot is flipped, reset!
             i = 0
             rewards = []
