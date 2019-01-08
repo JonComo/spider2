@@ -2,15 +2,16 @@
 # Flip robot upsidedown to scramble its brain connections if suck in local optima
 # Uses motion sensor to generate rewards for forward motion
 
-import utilities
+from utilities import Body
 import numpy as np
 from time import sleep
 
 learning_rate = .2
 move_steps = 4 # moves to make with trial Ws
 
-utilities.default_accel()
-utilities.set_angles(np.zeros(8))
+body = Body()
+body.default_accel()
+body.set_angles(np.zeros(8))
 sleep(1)
 
 def transform(state, W):
@@ -37,8 +38,8 @@ if __name__ == "__main__":
 
         for k in range(move_steps):
             state = transform(state, trialW)
-            utilities.set_angles(state)
-            data += np.array(utilities.collect_data(steps=5, sleep_time=.1))
+            body.set_angles(state)
+            data += np.array(body.collect_data(steps=5, sleep_time=.1))
 
         if data[1] < 0:
             # robot is flipped, reset!
@@ -47,7 +48,7 @@ if __name__ == "__main__":
             diffs = []
             W = np.random.randn(8, 9)
             state = np.zeros(8)
-            utilities.set_angles(state)
+            body.set_angles(state)
             sleep(5)
             continue
         
@@ -59,7 +60,7 @@ if __name__ == "__main__":
         if i % 10 == 0:
             # train
             state = np.zeros(8)
-            utilities.set_angles(state)
+            body.set_angles(state)
 
             r_norm = np.array(rewards)
             r_norm -= np.mean(r_norm)

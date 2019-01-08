@@ -3,9 +3,10 @@ import numpy as np
 import socket
 from socket import SOL_SOCKET, SO_REUSEADDR
 from time import sleep
-import utilities
+from utilities import Body
 
-utilities.default_accel()
+body = Body()
+body.default_accel()
 
 TCP_IP = ''
 TCP_PORT = 5005
@@ -37,10 +38,10 @@ while True:
                     msg = float(d[0])
                     d = d[1:]
                     if msg == 0:
-                        utilities.set_angles(d) # just set
+                        body.set_angles(d) # just set
                     elif msg == 1:
-                        utilities.set_angles(d)
-                        data = utilities.collect_data()
+                        body.set_angles(d)
+                        data = body.collect_data()
                         data = "{},{},{}".format(data[0], data[1], data[2])
                         print("collected: ", data)
                         connection.send(data.encode())
