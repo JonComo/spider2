@@ -35,16 +35,16 @@ if __name__ == "__main__":
 
     while True:
         i += 1
-        t += 0.1
 
         diff = np.random.randn(W.shape[0], W.shape[1])
         trialW = W + diff
         data = np.zeros(3) # accel data
 
         for k in range(move_steps):
+            t += 0.1
             state = transform(state, trialW)
             body.set_angles(state)
-            data += np.array(body.collect_data(steps=5, sleep_time=.01))
+            data += np.array(body.collect_data(steps=10, sleep_time=.1))
 
         if data[2] < 0:
             # robot is flipped, reset!
@@ -61,10 +61,10 @@ if __name__ == "__main__":
         reward = data[1] # y acceleration, maybe want to filter out tilting in y direction?
         user = input()
         if user == 'g':
-            reward = 1
+            reward = 1.0
         else:
-            reward = -1
-            
+            reward = -1.0
+
         print("reward: ", reward)
 
         rewards.append(reward)
