@@ -23,13 +23,13 @@ class Body(object):
     def update(self):
         data = self.sensor.get_accel_data()
         
-        self.x_fast += (data['x'] - self.x_avg) * .2
-        self.y_fast += (data['y'] - self.y_avg) * .2
-        self.z_fast += (data['z'] - self.z_avg) * .2
+        self.x_fast += (data['x'] - self.x_fast) * .8
+        self.y_fast += (data['y'] - self.y_fast) * .8
+        self.z_fast += (data['z'] - self.z_fast) * .8
 
-        self.x_slow += (data['x'] - self.x_avg) * .2
-        self.y_slow += (data['y'] - self.y_avg) * .2
-        self.z_slow += (data['z'] - self.z_avg) * .2
+        self.x_slow += (data['x'] - self.x_slow) * .1
+        self.y_slow += (data['y'] - self.y_slow) * .1
+        self.z_slow += (data['z'] - self.z_slow) * .1
 
     def fast_accel(self):
         x_diff = self.x_fast - self.x_slow
