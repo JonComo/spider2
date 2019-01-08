@@ -5,4 +5,4 @@ body = Body()
 while True:
     body.update()
 
-    print(body.fast_accel())
+    print(body.fast_accel()[1])

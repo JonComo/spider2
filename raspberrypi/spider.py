@@ -27,9 +27,9 @@ class Body(object):
         self.y_fast += (data['y'] - self.y_fast) * .8
         self.z_fast += (data['z'] - self.z_fast) * .8
 
-        self.x_slow += (data['x'] - self.x_slow) * .1
-        self.y_slow += (data['y'] - self.y_slow) * .1
-        self.z_slow += (data['z'] - self.z_slow) * .1
+        self.x_slow += (data['x'] - self.x_slow) * .01
+        self.y_slow += (data['y'] - self.y_slow) * .01
+        self.z_slow += (data['z'] - self.z_slow) * .01
 
     def fast_accel(self):
         x_diff = self.x_fast - self.x_slow

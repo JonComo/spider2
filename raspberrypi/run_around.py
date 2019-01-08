@@ -8,7 +8,7 @@ import numpy as np
 from time import sleep
 
 learning_rate = .2
-move_steps = 10 # moves to make with trial Ws
+move_steps = 400 # moves to make with trial Ws
 
 body = Body()
 body.default_accel()
@@ -44,7 +44,7 @@ if __name__ == "__main__":
             t += 0.1
             state = transform(state, trialW)
             body.set_angles(state)
-            data += np.array(body.collect_data(steps=10, sleep_time=.01))
+            sleep(.01)
 
         if data[2] < 0:
             # robot is flipped, reset!
@@ -62,8 +62,15 @@ if __name__ == "__main__":
         user = input()
         if user == 'g':
             reward = 1.0
-        else:
+        elif user == 'b':
             reward = -1.0
+        elif user == 'r':
+            print("running")
+            for k in range(move_steps*5):
+                t += 0.1
+                state = transform(state, W)
+                body.set_angles(state)
+                sleep(.01)
 
         print("reward: ", reward)
 
