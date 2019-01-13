@@ -49,7 +49,7 @@ class Body(object):
 
     def default_accel(self):
         for i in range(8):
-            self.servo.setAccel(i, 30)
+            self.servo.setAccel(i, 0)
             self.servo.setTarget(i, 6000)
 
     def collect_data(self, steps=10, sleep_time=.1):
