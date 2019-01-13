@@ -38,20 +38,23 @@ class Body(object):
         
         return [x_diff, y_diff, z_diff]
 
-    def set_angles(self, d, sleep_time=.1):
+    def set_angles(self, d, sleep_time=.05):
         for i in range(len(d)):
-            angle = float(d[i%8]) * 2000 + 6000 # angle between -1 and 1
+            angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
             if angle > 7500:
                 angle = 7500
             if angle < 2500:
                 angle = 2500
-            self.servo.setTarget(i, int(angle))
-            sleep(sleep_time)
+            self.servo.setTarget(i%8, int(angle))
+            if i % 8 == 0:
+                sleep(sleep_time)
 
     def default_accel(self):
+        self.set_accel(0)
+
+    def set_accel(self, accel):
         for i in range(8):
-            self.servo.setAccel(i, 0)
-            self.servo.setTarget(i, 6000)
+            self.servo.setAccel(i, accel)
 
     def collect_data(self, steps=10, sleep_time=.1):
         x = 0

@@ -10,7 +10,7 @@ body.default_accel()
 
 TCP_IP = ''
 TCP_PORT = 5005
-BUFFER_SIZE = 200
+BUFFER_SIZE = 5000
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
@@ -32,15 +32,18 @@ while True:
             if data:
                 try:
                     # output received data
-                    print ("Data: %s" % data)
+                    # print ("Data: %s" % data)
                     data = data.decode("utf-8")
                     d = data.split(",")
-                    msg = float(d[0])
-                    d = d[1:]
+                    msg = int(d[0])
+                    sleep_time = float(d[1])
+                    accel = int(d[2])
+                    body.set_accel(accel)
+                    d = d[3:]
                     if msg == 0:
-                        body.set_angles(d) # just set
+                        body.set_angles(d, sleep_time) # just set
                     elif msg == 1:
-                        body.set_angles(d)
+                        body.set_angles(d, sleep_time)
                         data = body.collect_data()
                         data = "{},{},{}".format(data[0], data[1], data[2])
                         print("collected: ", data)
