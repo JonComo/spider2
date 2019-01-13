@@ -38,14 +38,15 @@ class Body(object):
         
         return [x_diff, y_diff, z_diff]
 
-    def set_angles(self, d):
-        for i in range(8):
-            angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
+    def set_angles(self, d, sleep_time=.1):
+        for i in range(len(d)):
+            angle = float(d[i%8]) * 2000 + 6000 # angle between -1 and 1
             if angle > 7500:
                 angle = 7500
             if angle < 2500:
                 angle = 2500
             self.servo.setTarget(i, int(angle))
+            sleep(sleep_time)
 
     def default_accel(self):
         for i in range(8):
