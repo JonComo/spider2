@@ -40,13 +40,8 @@ while True:
                     accel = int(d[2])
                     body.set_accel(accel)
                     d = d[3:]
-                    if msg == 0:
-                        body.set_angles(d, sleep_time) # just set
-                    elif msg == 1:
-                        body.set_angles(d, sleep_time)
-                        data = body.collect_data()
-                        data = "{},{},{}".format(data[0], data[1], data[2])
-                        print("collected: ", data)
+                    data = body.set_angles(d, sleep_time)
+                    if msg == 1:
                         connection.send(data.encode())
                 except Exception as e:
                     print("error: ", e)
