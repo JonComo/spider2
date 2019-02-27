@@ -39,6 +39,12 @@ class Body(object):
         return [x_diff, y_diff, z_diff]
 
     def set_angles(self, d, sleep_time=.05):
+        # data collection
+        x = 0
+        y = 0
+        z = 0
+        cnt = 0
+
         for i in range(len(d)):
             angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
             if angle > 7500:
@@ -48,6 +54,13 @@ class Body(object):
             self.servo.setTarget(i%8, int(angle))
             if i % 8 == 0:
                 sleep(sleep_time)
+                data = self.sensor.get_accel_data()
+                x += data['x']
+                y += data['y']
+                z += data['z']
+                cnt += 1
+
+        return [x/cnt, y/cnt, z/cnt]
 
     def default_accel(self):
         self.set_accel(0)

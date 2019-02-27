@@ -1,5 +1,8 @@
 # spider2
 
+How to ssh to the robot:
+ssh pi@raspberrypi.local
+
 How to access notebook running on pi from macbook:
 http://danielhnyk.cz/running-ipython-notebook-different-computer/
 
