@@ -42,6 +42,9 @@ while True:
                     d = d[3:]
                     data = body.set_angles(d, sleep_time)
                     if msg == 1:
+                        data = np.array(data)
+                        data = np.round(data, 2)
+                        data = ",".join(data)
                         connection.send(data.encode())
                 except Exception as e:
                     print("error: ", e)
