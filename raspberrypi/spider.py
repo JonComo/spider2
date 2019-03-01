@@ -39,21 +39,24 @@ class Body(object):
         return [x_diff, y_diff, z_diff]
 
     def set_angles(self, d, sleep_time=.05):
+        if len(d)%8 != 0:
+            # error, should be mult of 8
+            return [-1, -1, -1]
+
         # data collection
         x = 0
         y = 0
         z = 0
         cnt = 0
 
-        for i in range(len(d)/8):
+        for i in range(int(len(d)/8)):
             for j in range(8):
                 angle = float(d[i*8+j]) * 2000 + 6000 # angle between -1 and 1
                 if angle > 7500:
                     angle = 7500
                 if angle < 2500:
                     angle = 2500
-                self.servo.setTarget(i%8, int(angle))
-                
+                self.servo.setTarget(j, int(angle))
             sleep(sleep_time)
             data = self.sensor.get_accel_data()
             x += data['x']
