@@ -45,20 +45,21 @@ class Body(object):
         z = 0
         cnt = 0
 
-        for i in range(len(d)):
-            angle = float(d[i]) * 2000 + 6000 # angle between -1 and 1
-            if angle > 7500:
-                angle = 7500
-            if angle < 2500:
-                angle = 2500
-            self.servo.setTarget(i%8, int(angle))
-            if i % 8 == 0:
-                sleep(sleep_time)
-                data = self.sensor.get_accel_data()
-                x += data['x']
-                y += data['y']
-                z += data['z']
-                cnt += 1
+        for i in range(len(d)/8):
+            for j in range(8):
+                angle = float(d[i*8+j]) * 2000 + 6000 # angle between -1 and 1
+                if angle > 7500:
+                    angle = 7500
+                if angle < 2500:
+                    angle = 2500
+                self.servo.setTarget(i%8, int(angle))
+                
+            sleep(sleep_time)
+            data = self.sensor.get_accel_data()
+            x += data['x']
+            y += data['y']
+            z += data['z']
+            cnt += 1
 
         return [x/cnt, y/cnt, z/cnt]
 

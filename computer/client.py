@@ -23,7 +23,7 @@ class Socket(object):
         print("trying to connect to: ", TCP_IP, TCP_PORT)
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((TCP_IP, TCP_PORT))
-        print("connected, use send_recv(msg) to send data")
+        print("connected")
 
     def close(self):
         self.s.close()
