@@ -12,4 +12,5 @@ class Spider(object):
         if msg_type == 0:
             self.s.send(data)
         else:
-            return self.s.send_recv(data)
+            ret_dat = self.s.send_recv(data)
+            return list(map(float, ret_dat.decode('utf-8').split(",")))
